@@ -1,6 +1,8 @@
 ﻿#include <sstream>
 #include <iostream>
 
+#include "Console\Colour.h"
+
 int main(int argc, char** argv)
 {
 	//Check how many arguments we were provided
@@ -8,6 +10,10 @@ int main(int argc, char** argv)
 	//Remember, arg[0] in C++ will always be our exe
 	if (argc == 1)
 	{
-		std::cerr << "Error: No input file/s\nUsage: PyPlus <FILE_PATHS> <args>";
+		SetConsoleColour(BrightRed);
+		std::cerr << "Error";
+		ResetConsoleColour();
+		std::cerr << ": No input file / s\nUsage: PyPlus <FILE_PATHS> <args>";
+		return 1;
 	}
 }
