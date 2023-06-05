@@ -73,6 +73,7 @@ void CompileFile(const char* fname)
 	}
 
 #ifdef DUMP_PARSER
+	std::cout << '\n';
 	for (Node* n : *nodes)
 		std::cout << n->PrintNode(0) << '\n';
 #endif

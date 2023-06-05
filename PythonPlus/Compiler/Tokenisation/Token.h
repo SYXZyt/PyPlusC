@@ -26,6 +26,7 @@ static std::ostream& operator<<(std::ostream& o, const Token& token)
 	StringReplace(lexeme, "\r", "\\r");
 
 	o << "Token: " << token.type << ", ";
-	o << token.pos;
+	o << token.pos << ", '";
+	o << lexeme << '\'';
 	return o;
 }
