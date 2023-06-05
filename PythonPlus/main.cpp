@@ -6,11 +6,14 @@
 #include "Compiler\Tokenisation\Token.h"
 #include "Compiler\Tokenisation\Lexer.h"
 
+#ifdef _DEBUG
 #define DUMP_LEXER
+#define DUMP_PARSER
+#endif
 
 void _pyp_exit(int code)
 {
-	std::cout << "Exited with code" << code << '\n';
+	std::cout << "Exited with code " << code << '\n';
 	exit(code);
 }
 

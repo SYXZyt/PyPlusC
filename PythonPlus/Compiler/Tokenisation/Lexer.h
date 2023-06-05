@@ -26,22 +26,22 @@ private:
 	int posOnLine;
 	int pos;
 	bool failed;
-	std::vector<Token> tokens;
+	std::vector<Token*> tokens;
 
 	char currentChar;
-	std::queue<Token> tstack;
+	std::queue<Token*> tstack;
 
 	void AppendTStack();
 	char Peek();
 	void Advance();
-	Token GenerateIden();
-	Token GenerateString(char strChr);
+	Token* GenerateIden();
+	Token* GenerateString(char strChr);
 
 	void RemoveMultiSpace();
 
 public:
 	inline bool Failed() { return failed; }
-	std::vector<Token> Tokenise();
+	std::vector<Token*> Tokenise();
 
 	Lexer(std::string text);
 };

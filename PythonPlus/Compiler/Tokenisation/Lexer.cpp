@@ -32,14 +32,14 @@ void Lexer::Advance()
 		{
 			line++;
 			posOnLine = 0;
-			tstack.push(Token(_pyp_TokenType::NEWLINE, Vector2(posOnLine, line), std::string("\n")));
+			tstack.push(new Token(_pyp_TokenType::NEWLINE, Vector2(posOnLine, line), std::string("\n")));
 		}
 
 		return;
 	}
 }
 
-Token Lexer::GenerateIden()
+Token* Lexer::GenerateIden()
 {
 	Vector2 pos = Vector2(posOnLine, line);
 	std::string lexeme = "";
@@ -51,10 +51,10 @@ Token Lexer::GenerateIden()
 		Advance();
 	}
 
-	return Token(_pyp_TokenType::IDENTIFIER, pos, lexeme);
+	return new Token(_pyp_TokenType::IDENTIFIER, pos, lexeme);
 }
 
-Token Lexer::GenerateString(char strChr)
+Token* Lexer::GenerateString(char strChr)
 {
 	Vector2 pos = Vector2(posOnLine, line);
 	Advance();
@@ -69,7 +69,7 @@ Token Lexer::GenerateString(char strChr)
 			ResetConsoleColour();
 			std::cerr << ": String not terminated\nAt " << pos << '\n';
 			failed = true;
-			return Token::Default();
+			return nullptr;
 		}
 
 		//Handle escape characters
@@ -84,7 +84,7 @@ Token Lexer::GenerateString(char strChr)
 				ResetConsoleColour();
 				std::cerr << ": End of file was unexpected\nAt " << pos << '\n';
 				failed = true;
-				return Token::Default();
+				return nullptr;
 			}
 
 			if (currentChar == '"')
@@ -110,7 +110,7 @@ Token Lexer::GenerateString(char strChr)
 				ResetConsoleColour();
 				std::cerr << ": Unknown escape character '\\" << currentChar << "'\nAt " << pos << '\n';
 				failed = true;
-				return Token::Default();
+				return nullptr;
 			}
 		}
 		else
@@ -119,21 +119,21 @@ Token Lexer::GenerateString(char strChr)
 	}
 
 	Advance();
-	return Token(_pyp_TokenType::STRING, pos, strChr + lexeme + strChr);
+	return new Token(_pyp_TokenType::STRING, pos, strChr + lexeme + strChr);
 }
 
 void Lexer::RemoveMultiSpace()
 {
 	//We don't want to deal with the users multi-space tab, but we want to deal with spaces
 	//so we can remove multiple spaces in a row
-	std::vector<Token> tokens;
+	std::vector<Token*> tokens;
 
 	int i = 0;
 	while (i < this->tokens.size())
 	{
 		while (i < this->tokens.size() - 1)
 		{
-			if (this->tokens[i].type == _pyp_TokenType::SPACE && this->tokens[static_cast<size_t>(i) + 1].type == _pyp_TokenType::SPACE)
+			if (this->tokens[i]->type == _pyp_TokenType::SPACE && this->tokens[static_cast<size_t>(i) + 1]->type == _pyp_TokenType::SPACE)
 			{
 				i++;
 				continue;
@@ -149,7 +149,7 @@ void Lexer::RemoveMultiSpace()
 	this->tokens = tokens;
 }
 
-std::vector<Token> Lexer::Tokenise()
+std::vector<Token*> Lexer::Tokenise()
 {
 	while (currentChar != '\0')
 	{
@@ -157,7 +157,7 @@ std::vector<Token> Lexer::Tokenise()
 		if (currentChar == ' ' || currentChar == '\t' || currentChar == '\r' || currentChar == '\n')
 		{
 			if (currentChar == ' ')
-				tokens.push_back(Token(_pyp_TokenType::SPACE, Vector2(posOnLine, line), " "));
+				tokens.push_back(new Token(_pyp_TokenType::SPACE, Vector2(posOnLine, line), " "));
 			Advance();
 			AppendTStack();
 			continue;
@@ -165,7 +165,7 @@ std::vector<Token> Lexer::Tokenise()
 
 		if (currentChar == '"' || currentChar == '\'')
 		{
-			Token string = GenerateString(currentChar);
+			Token* string = GenerateString(currentChar);
 			tokens.push_back(string);
 		}
 		else if (IsCharAlphaNum(currentChar) || currentChar == '_')
@@ -174,39 +174,39 @@ std::vector<Token> Lexer::Tokenise()
 		}
 		else if (currentChar == '{')
 		{
-			tokens.push_back(Token(_pyp_TokenType::OPEN_BRACE, Vector2(posOnLine, line), std::string(1, currentChar)));
+			tokens.push_back(new Token(_pyp_TokenType::OPEN_BRACE, Vector2(posOnLine, line), std::string(1, currentChar)));
 			Advance();
 		}
 		else if (currentChar == '}')
 		{
-			tokens.push_back(Token(_pyp_TokenType::CLSE_BRACE, Vector2(posOnLine, line), std::string(1, currentChar)));
+			tokens.push_back(new Token(_pyp_TokenType::CLSE_BRACE, Vector2(posOnLine, line), std::string(1, currentChar)));
 			Advance();
 		}
 		else if (currentChar == '(')
 		{
-			tokens.push_back(Token(_pyp_TokenType::OPEN_BRA, Vector2(posOnLine, line), std::string(1, currentChar)));
+			tokens.push_back(new Token(_pyp_TokenType::OPEN_BRA, Vector2(posOnLine, line), std::string(1, currentChar)));
 			Advance();
 		}
 		else if (currentChar == ')')
 		{
-			tokens.push_back(Token(_pyp_TokenType::CLSE_BRA, Vector2(posOnLine, line), std::string(1, currentChar)));
+			tokens.push_back(new Token(_pyp_TokenType::CLSE_BRA, Vector2(posOnLine, line), std::string(1, currentChar)));
 			Advance();
 		}
 		else if (currentChar == '\\')
 		{
 			if (Peek() == '{')
 			{
-				tokens.push_back(Token(_pyp_TokenType::OPEN_BRACE_PY, Vector2(posOnLine, line), std::string(1, currentChar)));
+				tokens.push_back(new Token(_pyp_TokenType::OPEN_BRACE_PY, Vector2(posOnLine, line), std::string(1, currentChar)));
 				Advance();
 			}
 			else if (Peek() == '}')
 			{
-				tokens.push_back(Token(_pyp_TokenType::CLSE_BRACE_PY, Vector2(posOnLine, line), std::string(1, currentChar)));
+				tokens.push_back(new Token(_pyp_TokenType::CLSE_BRACE_PY, Vector2(posOnLine, line), std::string(1, currentChar)));
 				Advance();
 			}
 			else
 			{
-				tokens.push_back(Token(_pyp_TokenType::UNKNOWN, Vector2(posOnLine, line), std::string(1, currentChar)));
+				tokens.push_back(new Token(_pyp_TokenType::UNKNOWN, Vector2(posOnLine, line), std::string(1, currentChar)));
 				Advance();
 			}
 		}
@@ -218,7 +218,7 @@ std::vector<Token> Lexer::Tokenise()
 		}
 		else
 		{
-			tokens.push_back(Token(_pyp_TokenType::UNKNOWN, Vector2(posOnLine, line), std::string(1, currentChar)));
+			tokens.push_back(new Token(_pyp_TokenType::UNKNOWN, Vector2(posOnLine, line), std::string(1, currentChar)));
 			Advance();
 		}
 
