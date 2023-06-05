@@ -34,8 +34,9 @@ static void ResetConsoleColour()
 {
     SetConsoleColour(Colour::White);
 }
-#elif defined(linux) //UNTESTED
+#elif defined(linux)
 #include <string>
+#include <iostream>
 
 static void SetConsoleColour(Colour foreground, Colour background = Colour::Black)
 {
@@ -45,52 +46,52 @@ static void SetConsoleColour(Colour foreground, Colour background = Colour::Blac
     //Convert foreground color to ANSI escape sequence
     switch (foreground)
     {
-        case Black:
+        case Colour::Black:
             foregroundColor = "0;30";
             break;
-        case Red:
+        case Colour::Red:
             foregroundColor = "0;31";
             break;
-        case Green:
+        case Colour::Green:
             foregroundColor = "0;32";
             break;
-        case Yellow:
+        case Colour::Yellow:
             foregroundColor = "0;33";
             break;
-        case Blue:
+        case Colour::Blue:
             foregroundColor = "0;34";
             break;
-        case Magenta:
+        case Colour::Magenta:
             foregroundColor = "0;35";
             break;
-        case Cyan:
+        case Colour::Cyan:
             foregroundColor = "0;36";
             break;
-        case White:
+        case Colour::White:
             foregroundColor = "0;37";
             break;
-        case BrightBlack:
+        case Colour::BrightBlack:
             foregroundColor = "1;30";
             break;
-        case BrightRed:
+        case Colour::BrightRed:
             foregroundColor = "1;31";
             break;
-        case BrightGreen:
+        case Colour::BrightGreen:
             foregroundColor = "1;32";
             break;
-        case BrightYellow:
+        case Colour::BrightYellow:
             foregroundColor = "1;33";
             break;
-        case BrightBlue:
+        case Colour::BrightBlue:
             foregroundColor = "1;34";
             break;
-        case BrightMagenta:
+        case Colour::BrightMagenta:
             foregroundColor = "1;35";
             break;
-        case BrightCyan:
+        case Colour::BrightCyan:
             foregroundColor = "1;36";
             break;
-        case BrightWhite:
+        case Colour::BrightWhite:
             foregroundColor = "1;37";
             break;
     }
@@ -98,52 +99,52 @@ static void SetConsoleColour(Colour foreground, Colour background = Colour::Blac
     //Convert background color to ANSI escape sequence
     switch (background)
     {
-        case Black:
+        case Colour::Black:
             backgroundColor = "40";
             break;
-        case Red:
+        case Colour::Red:
             backgroundColor = "41";
             break;
-        case Green:
+        case Colour::Green:
             backgroundColor = "42";
             break;
-        case Yellow:
+        case Colour::Yellow:
             backgroundColor = "43";
             break;
-        case Blue:
+        case Colour::Blue:
             backgroundColor = "44";
             break;
-        case Magenta:
+        case Colour::Magenta:
             backgroundColor = "45";
             break;
-        case Cyan:
+        case Colour::Cyan:
             backgroundColor = "46";
             break;
-        case White:
+        case Colour::White:
             backgroundColor = "47";
             break;
-        case BrightBlack:
+        case Colour::BrightBlack:
             backgroundColor = "100";
             break;
-        case BrightRed:
+        case Colour::BrightRed:
             backgroundColor = "101";
             break;
-        case BrightGreen:
+        case Colour::BrightGreen:
             backgroundColor = "102";
             break;
-        case BrightYellow:
+        case Colour::BrightYellow:
             backgroundColor = "103";
             break;
-        case BrightBlue:
+        case Colour::BrightBlue:
             backgroundColor = "104";
             break;
-        case BrightMagenta:
+        case Colour::BrightMagenta:
             backgroundColor = "105";
             break;
-        case BrightCyan:
+        case Colour::BrightCyan:
             backgroundColor = "106";
             break;
-        case BrightWhite:
+        case Colour::BrightWhite:
             backgroundColor = "107";
             break;
     }
@@ -156,7 +157,14 @@ static void ResetConsoleColour()
 {
     std::cout << "\033[0m";
 }
+
+static void DisplayTestPattern()
+{
+    
+}
+
 #else //If an unsupported OS, just write empty functions so that the code still runs, just without colour
 static void SetConsoleColour(Colour foreground, Colour background = Colour::Black) {}
 static void ResetConsoleColour() {}
+static void DisplayTestPattern() {}
 #endif

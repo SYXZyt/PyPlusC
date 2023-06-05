@@ -1,12 +1,13 @@
 ﻿#include <fstream>
 #include <sstream>
 #include <iostream>
+#include <filesystem>
 
-#include "Console\Colour.h"
-#include "Compiler\Parsing\Node.h"
-#include "Compiler\Parsing\Parser.h"
-#include "Compiler\Tokenisation\Token.h"
-#include "Compiler\Tokenisation\Lexer.h"
+#include "Console/Colour.h"
+#include "Compiler/Parsing/Node.h"
+#include "Compiler/Parsing/Parser.h"
+#include "Compiler/Tokenisation/Token.h"
+#include "Compiler/Tokenisation/Lexer.h"
 
 #ifdef _DEBUG
 #define DUMP_LEXER
@@ -21,8 +22,7 @@ void _pyp_exit(int code)
 
 inline bool FileExists(const char* name)
 {
-	struct stat buffer;
-	return (stat(name, &buffer) == 0);
+	return std::filesystem::exists(name);
 }
 
 std::string LoadTextFromFile(const char* fname)
