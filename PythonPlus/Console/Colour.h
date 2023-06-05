@@ -18,7 +18,6 @@ enum class Colour
     BrightYellow,
     BrightWhite
 };
-
 #ifdef _WIN32
 #include <Windows.h>
 
@@ -38,7 +37,7 @@ static void ResetConsoleColour()
 #elif defined(linux) //UNTESTED
 #include <string>
 
-static void SetConsoleColour(ConsoleColour foreground, ConsoleColour background = ConsoleColour::Black)
+static void SetConsoleColour(Colour foreground, Colour background = Colour::Black)
 {
     std::string foregroundColor;
     std::string backgroundColor;
@@ -158,6 +157,6 @@ static void ResetConsoleColour()
     std::cout << "\033[0m";
 }
 #else //If an unsupported OS, just write empty functions so that the code still runs, just without colour
-static void SetConsoleColour(ConsoleColour foreground, ConsoleColour background = ConsoleColour::Black) {}
+static void SetConsoleColour(Colour foreground, Colour background = Colour::Black) {}
 static void ResetConsoleColour() {}
 #endif
