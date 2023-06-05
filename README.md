@@ -72,6 +72,14 @@ myVar = None
 #PyPlus
 myVar = null
 ```
+## Building
+Two options are provided for compilation. If you are on Windows then it is recommended that you use Visual Studio to edit the application. A `.sln` file is provided for use with Visual Studio.
+If you are using Linux then a cmake file is provided. The following commands should compile the compiler.
+```
+cd build
+cmake ..
+make
+```
 ## Known Issues
 Multiline strings are likely to give you an error, as the PyPlus compiler sees them as a group of strings next to each other. This is on the list of things to fix.
 Attempting to compile a Python file will result in a mangled `.py` which contains incorrect indentation.
