@@ -7,7 +7,7 @@ Write about why this should be a feature.
 How would this syntax work. Compare it against
 
 Python.
-For example, keeping with the `True` -> `true` example
+For example, keeping with the `True` -> `true` example\
 Python
 ```
 myVar = True
