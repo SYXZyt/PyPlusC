@@ -9,7 +9,7 @@ This project was created because I dislike using Pythons whitespace based scopin
 
 ## Can Python call PyPlus code?
 No. Python cannot call PyPlus code as PyPlus is not valid syntax for the Python compiler. First, you would have to compile the PyPlus code first, before compiling it with Python.
-PyPlus can call Python as the PyPlus compiler does not evaluate imports. Just be aware that the PyPlus compiler cannot compile Python, and will generate incorrect code if ran.
+PyPlus can call Python as the PyPlus compiler does not evaluate imports. Just be aware that the PyPlus compiler cannot compile Python, and will generate incorrect code if ran. PyPlus cannot import another PyPlus library for the same reason, unless that library is passed to the compiler along with the main PyPlus file.
 
 ## Can I compile PyPlus to an executable
 This is planned. It will require that both Python and PyInstaller are installed on your system.
