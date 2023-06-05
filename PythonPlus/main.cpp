@@ -3,14 +3,19 @@
 #include <iostream>
 
 #include "Console\Colour.h"
+#include "Compiler\Parsing\Node.h"
+#include "Compiler\Parsing\Parser.h"
 #include "Compiler\Tokenisation\Token.h"
 #include "Compiler\Tokenisation\Lexer.h"
 
+#ifdef _DEBUG
 #define DUMP_LEXER
+#define DUMP_PARSER
+#endif
 
 void _pyp_exit(int code)
 {
-	std::cout << "Exited with code" << code << '\n';
+	std::cout << "\nExited with code " << code << '\n';
 	exit(code);
 }
 
@@ -28,6 +33,15 @@ std::string LoadTextFromFile(const char* fname)
 	return buffer.str();
 }
 
+void FreeCompileUnit(std::vector<Token*>& tokens, std::vector<Node*> nodes)
+{
+	for (Token* t : tokens)
+		delete t;
+
+	for (Node* n : nodes)
+		delete n;
+}
+
 void CompileFile(const char* fname)
 {
 	if (!FileExists(fname))
@@ -36,15 +50,34 @@ void CompileFile(const char* fname)
 	}
 
 	Lexer lexer = Lexer(LoadTextFromFile(fname));
-	std::vector<Token> tokens = lexer.Tokenise();
+	std::vector<Token*> tokens = lexer.Tokenise();
 
 	if (lexer.Failed())
+	{
+		std::cerr << "In " << fname << '\n';
 		_pyp_exit(1);
+	}
 
 #ifdef DUMP_LEXER
-	for (Token t : tokens)
-		std::cout << t << '\n';
+	for (Token* t : tokens)
+		std::cout << *t << '\n';
 #endif
+
+	Parser parser = Parser(tokens);
+	std::vector<Node*>* nodes = parser.Parse();
+
+	if (parser.Failed())
+	{
+		std::cerr << "In " << fname << '\n';
+		_pyp_exit(1);
+	}
+
+#ifdef DUMP_PARSER
+	std::cout << '\n';
+	for (Node* n : *nodes)
+		std::cout << n->PrintNode(0) << '\n';
+#endif
+
 }
 
 void CompileToPython() {}
