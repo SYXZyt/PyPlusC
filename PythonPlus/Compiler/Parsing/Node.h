@@ -35,6 +35,6 @@ public:
 
 static std::ostream& operator<<(std::ostream& o, const Node& n)
 {
-	o << "Node: " << n.GetType() << ", <" << n.GetToken() << '>';
+	o << "Node: " << n.GetType() << ", <" << *n.GetToken() << '>';
 	return o;
 }

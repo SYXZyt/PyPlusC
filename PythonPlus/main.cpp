@@ -3,6 +3,8 @@
 #include <iostream>
 
 #include "Console\Colour.h"
+#include "Compiler\Parsing\Node.h"
+#include "Compiler\Parsing\Parser.h"
 #include "Compiler\Tokenisation\Token.h"
 #include "Compiler\Tokenisation\Lexer.h"
 
@@ -13,7 +15,7 @@
 
 void _pyp_exit(int code)
 {
-	std::cout << "Exited with code " << code << '\n';
+	std::cout << "\nExited with code " << code << '\n';
 	exit(code);
 }
 
@@ -51,12 +53,30 @@ void CompileFile(const char* fname)
 	std::vector<Token*> tokens = lexer.Tokenise();
 
 	if (lexer.Failed())
+	{
+		std::cerr << "In " << fname << '\n';
 		_pyp_exit(1);
+	}
 
 #ifdef DUMP_LEXER
 	for (Token* t : tokens)
-		std::cout << t << '\n';
+		std::cout << *t << '\n';
 #endif
+
+	Parser parser = Parser(tokens);
+	std::vector<Node*>* nodes = parser.Parse();
+
+	if (parser.Failed())
+	{
+		std::cerr << "In " << fname << '\n';
+		_pyp_exit(1);
+	}
+
+#ifdef DUMP_PARSER
+	for (Node* n : *nodes)
+		std::cout << n->PrintNode(0) << '\n';
+#endif
+
 }
 
 void CompileToPython() {}

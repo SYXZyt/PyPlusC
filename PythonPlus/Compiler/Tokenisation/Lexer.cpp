@@ -128,6 +128,10 @@ void Lexer::RemoveMultiSpace()
 	//so we can remove multiple spaces in a row
 	std::vector<Token*> tokens;
 
+	//If the lexical analysis failed, skip this as it may crash
+	if (failed)
+		return;
+
 	int i = 0;
 	while (i < this->tokens.size())
 	{
