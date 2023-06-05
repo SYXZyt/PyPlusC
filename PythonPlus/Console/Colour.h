@@ -160,7 +160,20 @@ static void ResetConsoleColour()
 
 static void DisplayTestPattern()
 {
-    
+    //Loop over each colour possibility, and then display a character on the screen for it
+    for (int b = 0; b < 16; b++)
+    {
+        for (int f = 0; f < 16; f++)
+        {
+            Colour foregroundColour = (Colour)f;
+            Colour backgroundColour = (Colour)b;
+
+            SetConsoleColour(foregroundColour, backgroundColour);
+            std::cout << 'A';
+        }
+    }
+
+    ResetConsoleColour();
 }
 
 #else //If an unsupported OS, just write empty functions so that the code still runs, just without colour

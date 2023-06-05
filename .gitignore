@@ -8,6 +8,9 @@ CMakeFiles/
 cmake_install.cmake
 CMakeCache.txt
 
+PythonPlus
+build/demo.pyp
+
 # User-specific files
 *.rsuser
 *.suo
@@ -401,3 +404,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+build/PythonPlus
+build/PythonPlus

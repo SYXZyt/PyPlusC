@@ -9,9 +9,14 @@
 #include "Compiler/Tokenisation/Token.h"
 #include "Compiler/Tokenisation/Lexer.h"
 
-#ifdef _DEBUG
-#define DUMP_LEXER
-#define DUMP_PARSER
+#define CNV_STR(str) std::string(str)
+
+#if _DEBUG
+static bool dump_lexer = true;
+static bool dump_parser = true;
+#else
+static bool dump_lexer = false;
+static bool dump_parser = false;
 #endif
 
 void _pyp_exit(int code)
@@ -33,21 +38,26 @@ std::string LoadTextFromFile(const char* fname)
 	return buffer.str();
 }
 
-void FreeCompileUnit(std::vector<Token*>& tokens, std::vector<Node*> nodes)
+void FreeCompileUnit(std::vector<Token*>& tokens, std::vector<Node*>* nodes)
 {
 	for (Token* t : tokens)
 		delete t;
 
-	for (Node* n : nodes)
+	for (Node* n : *nodes)
 		delete n;
+
+	delete nodes;
 }
 
 void CompileFile(const char* fname)
 {
 	if (!FileExists(fname))
 	{
-		std::cerr << "";
+		std::cerr << "Could not find file '" << fname << "'\n";
+		_pyp_exit(1);
 	}
+
+	std::cout << "Compiling file '" << fname << "'\n";
 
 	Lexer lexer = Lexer(LoadTextFromFile(fname));
 	std::vector<Token*> tokens = lexer.Tokenise();
@@ -58,10 +68,9 @@ void CompileFile(const char* fname)
 		_pyp_exit(1);
 	}
 
-#ifdef DUMP_LEXER
-	for (Token* t : tokens)
-		std::cout << *t << '\n';
-#endif
+	if (dump_lexer)
+		for (Token* t : tokens)
+			std::cout << *t << '\n';
 
 	Parser parser = Parser(tokens);
 	std::vector<Node*>* nodes = parser.Parse();
@@ -72,15 +81,45 @@ void CompileFile(const char* fname)
 		_pyp_exit(1);
 	}
 
-#ifdef DUMP_PARSER
-	std::cout << '\n';
-	for (Node* n : *nodes)
-		std::cout << n->PrintNode(0) << '\n';
-#endif
+	if (dump_parser)
+	{
+		std::cout << '\n';
+		for (Node* n : *nodes)
+			std::cout << n->PrintNode(0) << '\n';
+	}
 
+	FreeCompileUnit(tokens, nodes);
 }
 
 void CompileToPython() {}
+
+bool* CheckArgsForCommands(int argc, char** argv)
+{
+	bool* areCmds = new bool[argc - 1];
+
+	for (int i = 1; i < argc; i++)
+	{
+		if (CNV_STR(argv[i]) == "-D_TESTCOLOUR" || CNV_STR(argv[i]) == "-D_TESTCOLOR")
+		{
+			DisplayTestPattern();
+			areCmds[i - 1] = true;
+		}
+		else if (CNV_STR(argv[i]) == "-D_DUMPLEXER")
+		{
+			dump_lexer = true;
+			std::cout << "Dumping tokens\n";
+			areCmds[i - 1] = true;
+		}
+		else if (CNV_STR(argv[i]) == "-D_DUMPPARSER")
+		{
+			dump_parser = true;
+			std::cout << "Dumping nodes\n";
+			areCmds[i - 1] = true;
+		}
+	}
+
+	return areCmds;
+}
 
 int main(int argc, char** argv)
 {
@@ -92,13 +131,18 @@ int main(int argc, char** argv)
 		SetConsoleColour(Colour::BrightRed);
 		std::cerr << "Error";
 		ResetConsoleColour();
-		std::cerr << ": No input file / s\nUsage: PyPlus <FILE_PATHS>";
+		std::cerr << ": No input file / s\nUsage: PyPlus <FILE_PATHS>\n";
 		return 1;
 	}
 
+	bool* areCmds = CheckArgsForCommands(argc, argv);
+
 	//Loop over each file provided and try to compile the file
 	for (int i = 1; i < argc; i++)
-		CompileFile(argv[i]);
+	{
+		if (!areCmds[i - 1])
+			CompileFile(argv[i]);
+	}
 
 	CompileToPython();
 

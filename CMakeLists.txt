@@ -21,9 +21,9 @@ set(SOURCE_FILES
 )
 
 #This will enable tokens and nodes to be printed to the display
-if (DEBUG)
-	message(STATUS "Debug has been activated")
-	add_definitions(-D _DEBUG)
-endif()
+#if (DEFINED DEBUG)
+#	message(STATUS "Debug has been activated")
+#	add_definitions(-D _DEBUG)
+#endif()
 
 add_executable(PythonPlus ${SOURCE_FILES})
