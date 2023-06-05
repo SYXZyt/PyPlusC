@@ -95,7 +95,7 @@ void CompileToPython() {}
 
 bool* CheckArgsForCommands(int argc, char** argv)
 {
-	bool* areCmds = new bool[argc - 1];
+	bool* areCmds = new bool[argc - 1] { false };
 
 	for (int i = 1; i < argc; i++)
 	{

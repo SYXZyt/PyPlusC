@@ -34,6 +34,7 @@ static void ResetConsoleColour()
 {
     SetConsoleColour(Colour::White);
 }
+
 #elif defined(linux)
 #include <string>
 #include <iostream>
@@ -158,6 +159,11 @@ static void ResetConsoleColour()
     std::cout << "\033[0m";
 }
 
+#else //If an unsupported OS, just write empty functions so that the code still runs, just without colour
+static void SetConsoleColour(Colour foreground, Colour background = Colour::Black) {}
+static void ResetConsoleColour() {}
+#endif
+
 static void DisplayTestPattern()
 {
     //Loop over each colour possibility, and then display a character on the screen for it
@@ -175,9 +181,3 @@ static void DisplayTestPattern()
 
     ResetConsoleColour();
 }
-
-#else //If an unsupported OS, just write empty functions so that the code still runs, just without colour
-static void SetConsoleColour(Colour foreground, Colour background = Colour::Black) {}
-static void ResetConsoleColour() {}
-static void DisplayTestPattern() {}
-#endif
