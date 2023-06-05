@@ -1,12 +1,12 @@
 #include "Parser.h"
 
-std::vector<Node> Parser::Parse()
+std::vector<Node*> Parser::Parse()
 {
 	while (index < tokens.size())
 	{
-		Node node;
+		Node* node = nullptr;
 
-		if (tokens[index].type == _pyp_TokenType::OPEN_BRACE)
+		if (tokens[index]->type == _pyp_TokenType::OPEN_BRACE)
 			node = ParseBlock();
 		else
 			node = ParseUnknown();
@@ -24,11 +24,11 @@ std::vector<Node> Parser::Parse()
 	return nodes;
 }
 
-void Parser::RestrictReserved(std::vector<Node>& nodes)
+void Parser::RestrictReserved(std::vector<Node*>& nodes)
 {
 	for (size_t i = 0; i < nodes.size(); i++)
 	{
-		if (nodes[i].GetType() == NodeType::BLOCK)
-			RestrictReserved(nodes[i].GetSubnodes());
+		if (nodes[i]->GetType() == NodeType::BLOCK)
+			RestrictReserved(nodes[i]->GetSubnodes());
 	}
 }
