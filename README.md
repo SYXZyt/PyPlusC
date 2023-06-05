@@ -15,7 +15,7 @@ PyPlus can call Python as the PyPlus compiler does not evaluate imports. Just be
 No. The compiler originally could, however there are issues when PyInstaller is ran from a Python script, and so the feature had to be removed. If you want to compile to `.exe`, you will have to run PyInstaller on the generated Python files.
 
 ## How I can make a curly bracket appear in the compiled Python?
-Since the PyPlus compiler will convert all curly brackets into indents, you can use some keywords to act as a pass through.
+Since the PyPlus compiler will convert all curly brackets into indents, you can a blackslash to act as a pass through.
 ```
 #Python
 myMap = {}
@@ -25,22 +25,12 @@ myMap2 = {
 ```
 ```
 #PyPlus
-myMap = PyPlus_EmptyMap
-myMap2 = PyPlus_OpenCurly
-    "a" : "b"
-PyPlus_CloseCurly
-```
-The readability isn't great but it is the only I could think of doing it
-In a future build, backslashes will be used
-
-In the next update, a backslash will be used instead.
-```
 myMap = \{\}
-#or
 myMap2 = \{
     "a" : "b"
 \}
 ```
+The readability isn't great but it is the best way PyPlus can handle it without vastly changing syntax.
 
 ## PyPlus vs Python
 Currently the main differences is that PyPlus uses curly braces for classes and functions, in the same way `C/C++` or `Java` do for example.
