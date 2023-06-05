@@ -12,7 +12,7 @@ No. Python cannot call PyPlus code as PyPlus is not valid syntax for the Python 
 PyPlus can call Python as the PyPlus compiler does not evaluate imports. Just be aware that the PyPlus compiler cannot compile Python, and will generate incorrect code if ran.
 
 ## Can I compile PyPlus to an executable
-No. The compiler originally could, however there are issues when PyInstaller is ran from a Python script, and so the feature had to be removed. If you want to compile to `.exe`, you will have to run PyInstaller on the generated Python files.
+This is planned. It will require that both Python and PyInstaller are installed on your system.
 
 ## How I can make a curly bracket appear in the compiled Python?
 Since the PyPlus compiler will convert all curly brackets into indents, you can a blackslash to act as a pass through.
