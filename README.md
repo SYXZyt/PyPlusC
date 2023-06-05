@@ -34,7 +34,7 @@ The readability isn't great but it is the best way PyPlus can handle it without 
 
 ## PyPlus vs Python
 Currently the main differences is that PyPlus uses curly braces for classes and functions, in the same way `C/C++` or `Java` do for example.
-The list of new features is always expanding. Check out [plans.md](https://github.com/SYXZyt/PyPlus/blob/master/Plans.md) for a list of changes which will be made.
+The list of new features is always expanding. Check out the [proposals](https://github.com/SYXZyt/PyPlusC/tree/main/Proposals) for a list of changes which have been proposed.
 
 ## Changes
 Removal of whitespace
