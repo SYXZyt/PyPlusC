@@ -127,13 +127,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Compiler\Tokenisation\Lexer.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Compiler\StringReplace.h" />
+    <ClInclude Include="Compiler\Tokenisation\Lexer.h" />
+    <ClInclude Include="Compiler\Tokenisation\Token.h" />
+    <ClInclude Include="Compiler\Tokenisation\TokenType.h" />
+    <ClInclude Include="Compiler\Vector2.h" />
     <ClInclude Include="Console\Colour.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Console\demo.pyp" />
+    <None Include="demo.pyp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

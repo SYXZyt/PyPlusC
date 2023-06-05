@@ -1,5 +1,5 @@
 #pragma once
-enum ConsoleColour
+enum class Colour
 {
     Black,
     Blue,
@@ -21,20 +21,22 @@ enum ConsoleColour
 
 #ifdef _WIN32
 #include <Windows.h>
-static void SetConsoleColour(ConsoleColour foreground, ConsoleColour background = ConsoleColour::Black)
+
+static void SetConsoleColour(Colour foreground, Colour background = Colour::Black)
 {
     HANDLE console = GetStdHandle(STD_OUTPUT_HANDLE);
 
     //This function requires the two numbers to be merged instead of separate, so this maths will handle it
-    int k = foreground + (background * 16);
+    int k = (int)foreground + ((int)background * 16);
     SetConsoleTextAttribute(console, k);
 }
 
 static void ResetConsoleColour()
 {
-    SetConsoleColour(ConsoleColour::White);
+    SetConsoleColour(Colour::White);
 }
-#elif linux //UNTESTED
+#elif defined(linux) //UNTESTED
+#include <string>
 
 static void SetConsoleColour(ConsoleColour foreground, ConsoleColour background = ConsoleColour::Black)
 {
