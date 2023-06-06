@@ -1,4 +1,4 @@
-def Main()
+def Main() -> null
 {
 	print("Hello, World!")
 }

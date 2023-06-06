@@ -176,7 +176,7 @@ static void DisplayTestPattern()
 
             SetConsoleColour(foregroundColour, backgroundColour);
             std::cout << 'A';
-        }
+        } std::cout << '\n';
     }
 
     ResetConsoleColour();
