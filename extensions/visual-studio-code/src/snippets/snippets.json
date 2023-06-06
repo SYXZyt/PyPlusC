@@ -1,0 +1,19 @@
+{
+    "Class":
+    {
+        "prefix": "class",
+        "body": ["class ${1:MyClass}", "{\n", "}"]
+    },
+
+    "Function":
+    {
+        "prefix": "def",
+        "body": [ "def ${1:MyFunction} (${0})", "{\n", "}" ]
+    },
+
+    "Main":
+    {
+        "prefix": "vm",
+        "body": [ "def main()", "{\n\t", "}\n", "if __name__ == \"__main__\"", "{", "\tmain()", "}" ]
+    }
+}

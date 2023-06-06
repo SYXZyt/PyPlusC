@@ -145,8 +145,8 @@
 		"illegal": {
 			"patterns": [
 				{
-					"name": "invalid.deprecated.semicolon.pyp",
-					"match": ";"
+					"name": "invalid.deprecated.pyp",
+					"match": "\\b(;|None|True|False|pass)\\b"
 				}
 			]
 		}

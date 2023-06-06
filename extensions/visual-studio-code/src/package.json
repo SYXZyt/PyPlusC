@@ -8,7 +8,8 @@
   },
   "repository": {},
   "categories": [
-    "Programming Languages"
+    "Programming Languages",
+    "Snippets"
   ],
   "contributes": {
     "languages": [{
@@ -17,6 +18,12 @@
       "extensions": [".pyp"],
       "configuration": "./language-configuration.json"
     }],
+    "snippets": [
+      {
+        "language": "pyp",
+        "path": "snippets/snippets.json"
+      }
+    ],
     "grammars": [{
       "language": "pyp",
       "scopeName": "source.pyp",
