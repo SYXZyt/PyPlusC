@@ -11,6 +11,9 @@ CMakeCache.txt
 PythonPlus
 build/demo.pyp
 
+extensions/visual-studio-code/build
+.vsix
+
 # User-specific files
 *.rsuser
 *.suo

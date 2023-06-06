@@ -1,0 +1,155 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "pyplus-syntax",
+	"patterns": [
+		{
+			"include": "#class"
+		},
+		{
+			"include": "#keywords"
+		},
+		{
+			"include": "#multistring"
+		},
+		{
+			"include": "#strings_single"
+		},
+		{
+			"include": "#strings_double"
+		},
+		{
+			"include": "#comments"
+		},
+		{
+			"include": "#number"
+		},
+		{
+			"include": "#illegal"
+		}
+	],
+	"repository": {
+  "class": {
+    "patterns": [
+      {
+        "name": "Python Class",
+        "match": "(?i)\\b(class)\\s+([a-zA-Z_][a-zA-Z0-9_]*)\\b",
+        "captures": {
+          "1": {
+            "name": "keyword.declaration.pyp"
+          },
+          "2": {
+            "name": "entity.name.class.python"
+          }
+        }
+      }
+    ]
+  },
+  "keywords": {
+	"patterns": [
+      {
+        "name": "keyword.flow.pyp",
+        "match": "\\b(and|as|assert|class|del|false|global|in|is|lambda|null|nonlocal|not|or|this|true|with|yield)\\b"
+      },
+      {
+        "name": "keyword.control.pyp",
+        "match": "\\b(break|continue|def|elif|else|except|finally|for|from|if|import|raise|return|try|while)\\b"
+      },
+	  {
+		"name": "support.function.builtin.pyp",
+		"match": "\\b(abs|aiter|all|any|anext|ascii|breakpoint|bytes|callable|classmethod|compile|complex|delattr|dir|divmod|enumerate|eval|exec|filter|format|frozenset|getattr|globals|hasattr|hash|help|hex|id|input|isinstance|issubclass|iter|len|list|locals|max|memoryview|min|next|object|open|ord|pow|print|property|range|repr|reversed|round|set|setattr|slice|sorted|staticmethod|sun|super|type|vars|zip|__import__)\\b"
+	  },
+	  {
+		"name": "support.type.builtin.pyp",
+		"match": "\\b(bin|bool|bytearray|chr|dict|float|int|map|oct|ord|str|tuple)\\b"
+	  }
+    	]
+  		},
+		"multistring": {
+			"patterns": [
+				{
+					"name": "invalid.deprecated.pyp",
+					"match": "\"\"\"(.|\n)*?\"\"\""
+				}
+			]
+		},
+		"strings_single": {
+    		"name": "string.quoted.single.pyp",
+    		"begin": "'",
+    		"end": "'",
+    		"patterns": [
+        	{
+            	"name": "constant.character.escape.pyp",
+            	"match": "\\\\."
+        	},
+        	{
+            	"name": "variable.other.square-brackets.pyp",
+            	"match": "\\[\\w+\\]",
+            	"captures": {
+                	"0": {
+                    	"name": "punctuation.definition.square-brackets.pyp"
+                	},
+                	"1": {
+                    	"name": "variable.other.pyp"
+                	},
+                	"2": {
+                    	"name": "punctuation.definition.square-brackets.pyp"
+                	}
+            	}
+        	}]
+		},
+		"strings_double": {
+    		"name": "string.quoted.double.pyp",
+    		"begin": "\"",
+    		"end": "\"",
+    		"patterns": [
+        	{
+            	"name": "constant.character.escape.pyp",
+            	"match": "\\\\."
+        	},
+        	{
+            	"name": "variable.other.square-brackets.pyp",
+            	"match": "\\[\\w+\\]",
+            	"captures": {
+                	"0": {
+                    	"name": "punctuation.definition.square-brackets.pyp"
+                	},
+                	"1": {
+                    	"name": "variable.other.pyp"
+                	},
+                	"2": {
+                    	"name": "punctuation.definition.square-brackets.pyp"
+                	}
+            	}
+        	}]
+		},
+		"number": {
+			"patterns": [
+				{
+					"name": "constant.numeric.decimal.pyp",
+					"match": "\\d+\\.\\d+"
+				},
+				{
+					"name": "constant.numeric.integer.pyp",
+					"match": "\\d+"
+				}
+			]
+		},
+		"comments": {
+			"patterns": [
+				{
+					"name": "comment.pyp",
+					"match": "#.*$"
+				}
+			]
+		},
+		"illegal": {
+			"patterns": [
+				{
+					"name": "invalid.deprecated.semicolon.pyp",
+					"match": ";"
+				}
+			]
+		}
+	},
+	"scopeName": "source.pyp"
+}

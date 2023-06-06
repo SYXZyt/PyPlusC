@@ -1,0 +1,26 @@
+{
+  "name": "pyplus-syntax",
+  "displayName": "PyPlus",
+  "description": "pyp",
+  "version": "1.0.0",
+  "engines": {
+    "vscode": "^1.78.0"
+  },
+  "repository": {},
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "pyp",
+      "aliases": ["PyPlus"],
+      "extensions": [".pyp"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "pyp",
+      "scopeName": "source.pyp",
+      "path": "./syntaxes/pyp.tmLanguage.json"
+    }]
+  }
+}
