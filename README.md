@@ -72,6 +72,19 @@ myVar = None
 #PyPlus
 myVar = null
 ```
+## Syntax Highlighting
+Currently a Visual Studio Code extension has been created which implements syntax highlighting. It is in development and not on the extension browser within VS-Code. It can be installed manually using the following commands. (Note that npm is required)
+```
+Required if vsce is not installed already
+npm install @vscode/vsce
+
+cd extensions/visual-studio-code/
+vsce package
+```
+
+Now open Visual Studio Code and click the `...` on the extension page and click `Install from VSIX...`.
+![Install from VSIX...](https://github.com/SYXZyt/PyPlusC/blob/main/docs/images/extensions/vs-code/install_vsix.png?raw=true "Image showing the Install from VSIX option")
+Select the `vsix` file created and now any `.pyp` file will use PyPlus syntax highlighting.
 ## Building
 Two options are provided for compilation. If you are on Windows then it is recommended that you use Visual Studio to edit the application. A `.sln` file is provided for use with Visual Studio.
 If you are using Linux then a cmake file is provided. The following commands should compile the compiler.
