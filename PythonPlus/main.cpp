@@ -13,6 +13,8 @@
 
 #define CNV_STR(str) std::string(str)
 
+static constexpr const char* BUILD_FOLDER = "/output";
+
 #if _DEBUG
 static bool dump_lexer = true;
 static bool dump_parser = true;
@@ -22,6 +24,11 @@ static bool dump_parser = false;
 #endif
 
 static std::unordered_map<std::string, std::string> compiledCode;
+
+std::string GetCurrentPath()
+{
+	return std::filesystem::current_path().string();
+}
 
 void _pyp_exit(int code)
 {
@@ -102,12 +109,35 @@ void CompileFile(const char* fname)
 	std::string pythonCode = codeGenerator.GetPythonCode();
 	compiledCode[CNV_STR(fname)] = pythonCode;
 
-	std::cout << "===" << fname << "===\n" << compiledCode[CNV_STR(fname)] << "\n\n";
-
 	FreeCompileUnit(tokens, nodes);
 }
 
-void CompileToPython() {}
+void CompileToPython()
+{
+	const std::string buildPath = GetCurrentPath() + BUILD_FOLDER;
+	if (std::filesystem::exists(buildPath))
+	{
+		for (const auto& entry : std::filesystem::directory_iterator(buildPath))
+			std::filesystem::remove(entry.path());
+
+		std::filesystem::remove(buildPath);
+	}
+
+	std::filesystem::create_directory(buildPath);
+
+	for (auto& kvp : compiledCode)
+	{
+		//Get the filename without the extension
+		std::string path = std::filesystem::path(kvp.first).stem().string();
+		path += ".py";
+		path = buildPath + '/' + path;
+
+		//Writes to the output python file
+		std::ofstream out(path);
+		out << kvp.second;
+		out.close();
+	}
+}
 
 bool* CheckArgsForCommands(int argc, char** argv)
 {

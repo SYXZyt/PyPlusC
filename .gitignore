@@ -9,6 +9,7 @@ cmake_install.cmake
 CMakeCache.txt
 
 build/demo.pyp
+output/
 
 extensions/visual-studio-code/build
 .vsix
