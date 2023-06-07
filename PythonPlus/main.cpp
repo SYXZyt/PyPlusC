@@ -2,12 +2,14 @@
 #include <sstream>
 #include <iostream>
 #include <filesystem>
+#include <unordered_map>
 
 #include "Console/Colour.h"
 #include "Compiler/Parsing/Node.h"
 #include "Compiler/Parsing/Parser.h"
 #include "Compiler/Tokenisation/Token.h"
 #include "Compiler/Tokenisation/Lexer.h"
+#include "Compiler/CodeGeneration/CodeGenerator.h"
 
 #define CNV_STR(str) std::string(str)
 
@@ -18,6 +20,8 @@ static bool dump_parser = true;
 static bool dump_lexer = false;
 static bool dump_parser = false;
 #endif
+
+static std::unordered_map<std::string, std::string> compiledCode;
 
 void _pyp_exit(int code)
 {
@@ -54,7 +58,13 @@ void CompileFile(const char* fname)
 	if (!FileExists(fname))
 	{
 		std::cerr << "Could not find file '" << fname << "'\n";
-		_pyp_exit(1);
+		return;
+	}
+
+	if (compiledCode.count(CNV_STR(fname)))
+	{
+		std::cerr << "File " << fname << " has already been compiled\n";
+		return;
 	}
 
 	std::cout << "Compiling file '" << fname << "'\n";
@@ -87,6 +97,12 @@ void CompileFile(const char* fname)
 		for (Node* n : *nodes)
 			std::cout << n->PrintNode(0) << '\n';
 	}
+
+	CodeGenerator codeGenerator = CodeGenerator(nodes);
+	std::string pythonCode = codeGenerator.GetPythonCode();
+	compiledCode[CNV_STR(fname)] = pythonCode;
+
+	std::cout << "===" << fname << "===\n" << compiledCode[CNV_STR(fname)] << "\n\n";
 
 	FreeCompileUnit(tokens, nodes);
 }
