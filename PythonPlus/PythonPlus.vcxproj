@@ -129,12 +129,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Compiler\CodeGeneration\CodeGenerator.cpp" />
     <ClCompile Include="Compiler\Parsing\Node.cpp" />
     <ClCompile Include="Compiler\Parsing\Parser.cpp" />
     <ClCompile Include="Compiler\Tokenisation\Lexer.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Compiler\CodeGeneration\CodeGenerator.h" />
     <ClInclude Include="Compiler\GlobalData\BuiltIns.h" />
     <ClInclude Include="Compiler\Parsing\Node.h" />
     <ClInclude Include="Compiler\Parsing\NodeType.h" />

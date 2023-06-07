@@ -2,14 +2,18 @@
 #include <sstream>
 #include <iostream>
 #include <filesystem>
+#include <unordered_map>
 
 #include "Console/Colour.h"
 #include "Compiler/Parsing/Node.h"
 #include "Compiler/Parsing/Parser.h"
 #include "Compiler/Tokenisation/Token.h"
 #include "Compiler/Tokenisation/Lexer.h"
+#include "Compiler/CodeGeneration/CodeGenerator.h"
 
 #define CNV_STR(str) std::string(str)
+
+static constexpr const char* BUILD_FOLDER = "/output";
 
 #if _DEBUG
 static bool dump_lexer = true;
@@ -18,6 +22,13 @@ static bool dump_parser = true;
 static bool dump_lexer = false;
 static bool dump_parser = false;
 #endif
+
+static std::unordered_map<std::string, std::string> compiledCode;
+
+std::string GetCurrentPath()
+{
+	return std::filesystem::current_path().string();
+}
 
 void _pyp_exit(int code)
 {
@@ -54,7 +65,13 @@ void CompileFile(const char* fname)
 	if (!FileExists(fname))
 	{
 		std::cerr << "Could not find file '" << fname << "'\n";
-		_pyp_exit(1);
+		return;
+	}
+
+	if (compiledCode.count(CNV_STR(fname)))
+	{
+		std::cerr << "File " << fname << " has already been compiled\n";
+		return;
 	}
 
 	std::cout << "Compiling file '" << fname << "'\n";
@@ -88,10 +105,39 @@ void CompileFile(const char* fname)
 			std::cout << n->PrintNode(0) << '\n';
 	}
 
+	CodeGenerator codeGenerator = CodeGenerator(nodes);
+	std::string pythonCode = codeGenerator.GetPythonCode();
+	compiledCode[CNV_STR(fname)] = pythonCode;
+
 	FreeCompileUnit(tokens, nodes);
 }
 
-void CompileToPython() {}
+void CompileToPython()
+{
+	const std::string buildPath = GetCurrentPath() + BUILD_FOLDER;
+	if (std::filesystem::exists(buildPath))
+	{
+		for (const auto& entry : std::filesystem::directory_iterator(buildPath))
+			std::filesystem::remove(entry.path());
+
+		std::filesystem::remove(buildPath);
+	}
+
+	std::filesystem::create_directory(buildPath);
+
+	for (auto& kvp : compiledCode)
+	{
+		//Get the filename without the extension
+		std::string path = std::filesystem::path(kvp.first).stem().string();
+		path += ".py";
+		path = buildPath + '/' + path;
+
+		//Writes to the output python file
+		std::ofstream out(path);
+		out << kvp.second;
+		out.close();
+	}
+}
 
 bool* CheckArgsForCommands(int argc, char** argv)
 {
