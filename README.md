@@ -7,6 +7,15 @@ PyPlus is a custom syntax which compiles directly into Python. This means it can
 
 This project was created because I dislike using Pythons whitespace based scoping and wanted to replace it with curly braces instead, while retaining everything that makes Python great.
 
+## Usage
+Call the compile using the command `PythonPlus [.PYP file/s]` which will generate all of your .py files in the output folder. Then the code can be executed using the normal Python command line instruction.
+For example
+```
+PythonPlus helloworld.pyp
+Python output/helloworld.py
+"Hello, World!"
+```
+
 ## Can Python call PyPlus code?
 No. Python cannot call PyPlus code as PyPlus is not valid syntax for the Python compiler. First, you would have to compile the PyPlus code first, before compiling it with Python.
 PyPlus can call Python as the PyPlus compiler does not evaluate imports. Just be aware that the PyPlus compiler cannot compile Python, and will generate incorrect code if ran. PyPlus cannot import another PyPlus library for the same reason, unless that library is passed to the compiler along with the main PyPlus file.
