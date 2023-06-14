@@ -27,6 +27,9 @@
     <ClCompile Include="Compiler\Parsing\Parser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Compiler\CodeGeneration\CodeGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Console\Colour.h">
@@ -57,6 +60,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Compiler\Parsing\Parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Compiler\CodeGeneration\CodeGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
