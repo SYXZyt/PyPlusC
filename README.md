@@ -5,10 +5,10 @@ Introducing PyPlus, a Python wrapper language which removes all of these annoyan
 ## Why use PyPlus?
 PyPlus is a custom syntax which compiles directly into Python. This means it can work with any existing Python library, and can even call `.py` files. If you can code it in Python, you can code it in PyPlus.
 
-This project was created because I dislike using Pythons whitespace based scoping and wanted to replace it with curly braces instead, while retaining everything that makes Python great.
+This project was created because I dislike using Python's whitespace based scoping and wanted to replace it with curly braces instead, while retaining everything that makes Python great.
 
 ## Usage
-Call the compile using the command `PythonPlus [.PYP file/s]` which will generate all of your .py files in the output folder. Then the code can be executed using the normal Python command line instruction.
+Call the compiler using the command `PythonPlus [.PYP file/s]` which will generate all of your .py files in the output folder. Then the code can be executed using the normal Python command line instruction.
 For example
 ```
 PythonPlus helloworld.pyp
