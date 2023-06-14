@@ -200,11 +200,13 @@ std::vector<Token*> Lexer::Tokenise()
 		{
 			if (Peek() == '{')
 			{
+				Advance();
 				tokens.push_back(new Token(_pyp_TokenType::OPEN_BRACE_PY, Vector2(posOnLine, line), std::string(1, currentChar)));
 				Advance();
 			}
 			else if (Peek() == '}')
 			{
+				Advance();
 				tokens.push_back(new Token(_pyp_TokenType::CLSE_BRACE_PY, Vector2(posOnLine, line), std::string(1, currentChar)));
 				Advance();
 			}

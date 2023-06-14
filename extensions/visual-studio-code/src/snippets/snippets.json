@@ -15,5 +15,17 @@
     {
         "prefix": "vm",
         "body": [ "def main()", "{\n\t", "}\n", "if __name__ == \"__main__\"", "{", "\tmain()", "}" ]
+    },
+
+    "For":
+    {
+        "prefix": "for",
+        "body": [ "for ${1} in ${0}", "{\n", "}" ]
+    },
+
+    "ForRange":
+    {
+        "prefix": "for",
+        "body": [ "for ${1} in range(${0})", "{\n", "}" ]
     }
 }
