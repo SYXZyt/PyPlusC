@@ -25,14 +25,14 @@ This is planned. It will require that both Python and PyInstaller are installed 
 
 ## How I can make a curly bracket appear in the compiled Python?
 Since the PyPlus compiler will convert all curly brackets into indents, you can a blackslash to act as a pass through.
-```
+```py
 #Python
 myMap = {}
 myMap2 = {
     "a" : "b"
 }
 ```
-```
+```py
 #PyPlus
 myMap = \{\}
 myMap2 = \{
